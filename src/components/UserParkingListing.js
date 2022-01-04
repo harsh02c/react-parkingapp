@@ -102,7 +102,7 @@ const UserParkingListing=()=>{
 
     return (
         <div className="inner-list">
-             <h2 className="text-center">Parking List</h2>
+             <h2 className="text-center">My Parking List</h2>
              <div className = "row">
                 <button className="btn btn-primary" onClick={addParking}> Add Parking</button>
              </div>
@@ -115,6 +115,7 @@ const UserParkingListing=()=>{
                                 <th> Parking Name</th>
                                 <th> Country</th>
                                 <th> City</th>
+                                <th> Address</th> 
                                 <th> Actions</th>
                             </tr>
                         </thead>
@@ -127,10 +128,11 @@ const UserParkingListing=()=>{
                                                 <td> {data.name} </td>   
                                                 <td> {data.country}</td>
                                                 <td> {data.city}</td>
+                                                <td> {data.address}</td> 
                                                 <td>
                                                     <button onClick={ () =>  editParking(data._id)} className="btn btn-info">Update </button>
                                                     <button style={{marginLeft: "10px"}} onClick={ () => deleteParking(data._id)} className="btn btn-danger">Delete </button>
-                                                    <button style={{marginLeft: "10px"}} onClick={ () => viewParking(data._id)} className="btn btn-info">View </button>
+                                                    {/* <button style={{marginLeft: "10px"}} onClick={ () => viewParking(data._id)} className="btn btn-info">View </button> */}
                                                 </td>
                                             </tr>
                                         )

@@ -48,8 +48,6 @@ const Login=()=>{
                 alert(error.response.data.message);
             }
         });
-        
-        
     }
 
     function redirectRegister(){
@@ -59,7 +57,6 @@ const Login=()=>{
 
     return (
         <div className="inner">
-
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h3>Log In</h3>
                 <div className="form-group">
@@ -71,7 +68,7 @@ const Login=()=>{
                     <label>Password</label>
                     <input type="password" {...register('password')}  className="form-control" placeholder="Enter Password" />
                     <div className="invalid-feedback">{errors.password?.message}</div>
-                </div>  
+                </div>
                 <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button> 
                 <p className="forgot-password text-right">
                     New User? <a href="javascript:void(0)" onClick={redirectRegister}  >Register</a>

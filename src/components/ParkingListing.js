@@ -60,11 +60,28 @@ const ParkingListing=()=>{
         });
     }
 
-    function getData(){
-        const user = { name: "", country: "", state: "", city: "",address:"" };
+    function getData(val){ 
+        if(val=="search"){
+            const country = document.getElementById("searchCountry").value
+            const city = document.getElementById("searchCity").value    
+            const state = document.getElementById("searchState").value    
+            const name = document.getElementById("searchName").value       
+         
+            var user = { name: name, country:country, state: state, city: city,address:"" };
+        }else{
+            document.getElementById("searchCountry").value = "";
+            document.getElementById("searchCity").value = "";
+            document.getElementById("searchState").value = "";
+            document.getElementById("searchName").value = "";
+
+            var user = { name: "", country:"", state:"", city: "",address:"" };
+        }
+       
+
         ParkingService.getParkingListing(user).then((response) => {
                 setAPIData(response.data);
         }).catch(function (error) {
+            alert(error)
             // if (error.response) {
             //     console.log(error.response.data);
             //     console.log(error.response.status);
@@ -101,10 +118,39 @@ const ParkingListing=()=>{
 
     return (
         <div className="inner-list">
-             <h2 className="text-center">Parking List</h2>
+             {/* <h2 className="text-center">Parking List</h2> */}
              {/* <div className = "row">
                 <button className="btn btn-primary" onClick={addParking}> Add Parking</button>
-             </div> */}
+             </div> */} 
+             <div className="row">
+                 <div className="col-lg-2">
+                     <div className="form-group">
+                        <input type="text"  id="searchName"  placeholder="Search Name" className="form-control" />
+                    </div>
+                 </div> 
+                 <div className="col-lg-2">
+                     <div className="form-group">
+                        <input type="text" id="searchCountry" placeholder="Search Country" className="form-control" />
+                    </div>
+                 </div> 
+                 <div className="col-lg-2">
+                     <div className="form-group">
+                        <input type="text"  id="searchState"   placeholder="Search State" className="form-control" />
+                    </div>
+                 </div> 
+                 <div className="col-lg-2">
+                     <div className="form-group">
+                        <input type="text"  id="searchCity"  placeholder="Search City" className="form-control" />
+                    </div>
+                 </div> 
+             
+                 <div className="col-lg-2 margin-search" >
+                     <div className="form-group">
+                        <span><button onClick={()=>getData("search")} className="btn btn-dark btn-lg btn-block">Search</button> </span>
+                        <span><button onClick={()=>getData("clear")} className="btn btn-dark btn-lg btn-block">Clear</button> </span>
+                    </div>
+                 </div> 
+             </div> 
              <br></br>
              <div className = "row">
                  <div className="col-lg-12">
@@ -113,7 +159,9 @@ const ParkingListing=()=>{
                             <tr>
                                 <th> Parking Name</th>
                                 <th> Country</th>
+                                <th> State</th>
                                 <th> City</th>
+                                <th> Address</th>
                                 <th> Actions</th>
                             </tr>
                         </thead>
@@ -125,7 +173,9 @@ const ParkingListing=()=>{
                                             <tr key = {data._id}>
                                                 <td> {data.name} </td>   
                                                 <td> {data.country}</td>
+                                                <td> {data.state}</td>
                                                 <td> {data.city}</td>
+                                                <td> {data.address}</td>
                                                 <td>
                                                     {/* <button onClick={ () =>  editParking(data._id)} className="btn btn-info">Update </button>
                                                     <button style={{marginLeft: "10px"}} onClick={ () => deleteParking(data._id)} className="btn btn-danger">Delete </button> */}

@@ -67,6 +67,10 @@ const EditParking=()=>{
         // alert('SUCCESS!! :-)\n\n' + JSON.stringify(parking, null, 4));
         // return false;
         const userValue = AuthService.getCurrentUser()
+        if(parking.totalslots<parking.availableslots){
+            alert("Available slots should be less than or equal to Total slots  ")
+            return false
+        }
         parking["_id"] = id;
         parking["user"] = {_id: userValue._id,name: "",mobileNo: "",email: "",password: ""}; 
 
@@ -80,6 +84,21 @@ const EditParking=()=>{
         navigate("/");
     }
 
+    let images=[];
+    const onChangeFile = (event) => {
+        for (let i = 0; i < event.target.files.length; i++) {
+            images.push(event.target.files[i]);  
+        }
+
+        let data = new FormData();
+        images.forEach((element, i) => {
+           data.append("images", element);
+        });  
+        ParkingService.uploadImages(data,id).then(res =>{
+            // navigate("../", { replace: true }); 
+            alert("images added successfully")
+        });
+    }
     return (
         <div className="inner-form">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,7 +128,7 @@ const EditParking=()=>{
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>City</label>
-                            <input type="text" name="city" {...register('city')} placeholder="Enter Parking Name" className="form-control" />
+                            <input type="text" name="city" {...register('city')} placeholder="Enter City" className="form-control" />
                             <div className="invalid-feedback">{errors.city?.message}</div>
                         </div>
                     </div>
@@ -141,7 +160,16 @@ const EditParking=()=>{
                             <div className="invalid-feedback">{errors.availableslots?.message}</div>
                         </div>
                     </div>
-                  
+                    {/* <div className="col-lg-6">
+                        <div className="form-group">
+                            <label>Available slots</label>
+                            <input type="file"   {...register('images')}  className="form-control"  onChange={onChangeFile}/>
+                            <div className="invalid-feedback">{errors.images?.message}</div>
+                        </div>
+                    </div>
+                    <div className="col-lg-6">
+                        
+                    </div> */}
                     
                     <div className="col-lg-6">
                         <span><button className="btn btn-dark btn-lg btn-block" onClick={redirectListing}>Back</button></span> &nbsp;

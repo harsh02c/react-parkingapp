@@ -33,7 +33,8 @@ const Header=()=>{
                                     <Link className="nav-link" to={"/user-bookings"} ><span>My Bookings</span></Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/sign-in"} onClick={Logout}><span>Logout</span></Link>
+                                    {/* <Link className="nav-link" to={"/sign-in"} onClick={Logout}><span>Logout</span></Link> */}
+                                    <Link className="nav-link" to={"/"} onClick={Logout}><span>Logout</span></Link>
                                     {/* <a className="nav-link" onClick={Logout}><span>Logout</span></a> */}
                                 </li>
                               

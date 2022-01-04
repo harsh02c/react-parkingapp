@@ -17,7 +17,8 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "web-vitals": "^2.1.2",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "deploy":"aws s3 sync build/ s3://parkingapp-react --acl public-read"
   },
   "scripts": {
     "start": "react-scripts start",

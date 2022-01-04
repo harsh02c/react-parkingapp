@@ -28,16 +28,14 @@ const AddParking=()=>{
         price: Yup.string()
             .required('Price is required.')
             .matches(/^[0-9]+$/, "Price be only digits."),        
-        availableslots: Yup.string()
-            .required('Available Slots is required.')
-            .matches(/^[0-9]+$/, "Total Slots be only digits.")
-            .max(Yup.ref('totalslots'), "Cannot Exceed Max Capacity")
-            ,
+     
         totalslots: Yup.string()
             .required('Total Slots is required.')
             .matches(/^[0-9]+$/, "Total Slots be only digits."),
-        images:Yup.string()
-        .required('Image is required.')
+        availableslots: Yup.string()
+            .required('Available Slots is required.')
+            .matches(/^[0-9]+$/, "Total Slots be only digits.")
+            .max(Yup.ref('totalslots'), "Cannot Exceed Max Capacity"),
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
     // get functions to build form with useForm() hook
@@ -49,7 +47,11 @@ const AddParking=()=>{
         // alert('SUCCESS!! :-)\n\n' + JSON.stringify(parking, null, 4));
         // return false;
         const userValue = AuthService.getCurrentUser()
-
+      
+        if(parking.totalslots<parking.availableslots){
+            alert("Available slots should be less than or equal to Total slots  ")
+            return false
+        }
         parking["user"] = {_id: userValue._id,name: "",mobileNo: "",email: "",password: ""};
 
         ParkingService.addParking(parking).then(res =>{
@@ -64,72 +66,72 @@ const AddParking=()=>{
 
     return (
         <div className="inner-form">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} >
                 <h3>Add Parking</h3>
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>Name</label>
-                            <input type="text" name="name" {...register('name')} placeholder="Enter Parking Name" className="form-control" />
+                            <input type="text"   {...register('name')} placeholder="Enter Parking Name" className="form-control" />
                             <div className="invalid-feedback">{errors.name?.message}</div>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>Country</label>
-                            <input type="text" name="country" {...register('country')} placeholder="Enter Country" className="form-control" />
+                            <input type="text"  {...register('country')} placeholder="Enter Country" className="form-control" />
                             <div className="invalid-feedback">{errors.country?.message}</div>
                         </div>
                     </div> 
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>State</label>
-                            <input type="text" name="state" {...register('state')} placeholder="Enter State" className="form-control" />
+                            <input type="text" {...register('state')} placeholder="Enter State" className="form-control" />
                             <div className="invalid-feedback">{errors.state?.message}</div>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>City</label>
-                            <input type="text" name="city" {...register('city')} placeholder="Enter Parking Name" className="form-control" />
+                            <input type="text" {...register('city')} placeholder="Enter City" className="form-control" />
                             <div className="invalid-feedback">{errors.city?.message}</div>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>Address</label>
-                            <input type="text" name="address" {...register('address')} placeholder="Enter Address" className="form-control" />
+                            <input type="text" {...register('address')} placeholder="Enter Address" className="form-control" />
                             <div className="invalid-feedback">{errors.address?.message}</div>
                         </div>
                     </div> 
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>Price</label>
-                            <input type="text" name="price" {...register('price')} placeholder="Enter Parking Price" className="form-control" />
+                            <input type="text" {...register('price')} placeholder="Enter Parking Price" className="form-control" />
                             <div className="invalid-feedback">{errors.price?.message}</div>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>Total Slots</label>
-                            <input type="text" name="totalslots" {...register('totalslots')} placeholder="Enter Total Slots" className="form-control" />
+                            <input type="text" {...register('totalslots')} placeholder="Enter Total Slots" className="form-control" />
                             <div className="invalid-feedback">{errors.totalslots?.message}</div>
                         </div>
                     </div> 
                     <div className="col-lg-6">
                         <div className="form-group">
                             <label>Available slots</label>
-                            <input type="text" name="availableslots" {...register('availableslots')} placeholder="Enter Available Slots" className="form-control" />
+                            <input type="text" {...register('availableslots')} placeholder="Enter Available Slots" className="form-control" />
                             <div className="invalid-feedback">{errors.availableslots?.message}</div>
                         </div>
                     </div>
-                    <div className="col-lg-6">
+                    {/* <div className="col-lg-6">
                         <div className="form-group">
                             <label>Image</label>
                             <input type="file" {...register('images')} placeholder="Enter Available Slots" className="form-control" />
                             <div className="invalid-feedback">{errors.images?.message}</div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="col-lg-6">
                         <span><button className="btn btn-dark btn-lg btn-block" onClick={redirectListing}>Back</button></span> &nbsp;
                         <span><button type="submit"  className="btn btn-dark btn-lg btn-block">Add Parking</button>  </span>

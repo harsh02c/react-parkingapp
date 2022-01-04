@@ -1,5 +1,6 @@
 import axios from 'axios';
-const AUTH_API_BASE_URL = "http://localhost:8080/parking-auth";
+// const AUTH_API_BASE_URL = "http://localhost:8080/parking-auth";
+const AUTH_API_BASE_URL = "http://parkingappcloudgateway-env.eba-eqk6fgj3.us-east-1.elasticbeanstalk.com/parking-auth";
 
 class AuthService{
     registerUser(user){

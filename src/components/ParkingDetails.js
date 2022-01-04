@@ -88,7 +88,8 @@ const ParkingDetails=()=>{
                 // .then(res=>{alert("Success")})
                 // .catch(e=>console.log(e)) 
                 BookingService.verifySignature(values).then((response) => {
-                  alert("success")
+                //   alert("success")
+                  navigate("/user-bookings"); 
                 }).catch(function (error) {
                     console.log(error)
                     // if (error.response) {
@@ -100,12 +101,12 @@ const ParkingDetails=()=>{
                     // localStorage.clear();
                     navigate("../sign-in"); 
                 });
-          },
-          "prefill":{
-              "name":'Harsh chauhan',
-              "email":'test@gmail.com',
-              "contact":'1234567890',
-          },
+            },
+            "prefill":{
+                "name":'Harsh chauhan',
+                "email":'test@gmail.com',
+                "contact":'1234567890',
+            },
           "notes": {
             "address": "Hello World"
           },
@@ -143,26 +144,30 @@ const ParkingDetails=()=>{
     });
 };
     function onSubmit(booking) {
+       
         // display form data on success
-        alert('SUCCESS!! :-)\n\n' + JSON.stringify(booking, null, 4));
+        // alert('SUCCESS!! :-)\n\n' + JSON.stringify(booking, null, 4));
         var startT = new Date(booking.startDate+" "+booking.startTime)
         var endT = new Date(booking.endDate+" "+booking.endTime) 
         if(startT>endT){
             alert("Start date/time should be less than End date/time");
         }
+        
         var hours = Math.ceil(Math.abs(startT - endT) / 36e5);
-        var finalAmount = hours*booking.price; 
+        var finalAmount = hours*booking.hiddenPrice; 
     //    openPayModal(finalAmount);
-
+//    alert(finalAmount)
         booking["bookingStartTime"] = startT;
         booking["bookingEndTime"] = endT;
         booking["bookingStatus"] = "pending";
+        booking["bookingAmount"] = finalAmount;
         booking["bookingId"] = Math.floor(100000000 + Math.random() * 900000000);
         booking["user"] = {_id: booking.userId,name: "",mobileNo: "",email: "",password: ""};
         booking["parking"] = {_id: booking.parkingId,name: "",address: "",country: "",state: "",city: "",price: "",totalslots: 15,availableslots: 15}; 
         
         BookingService.addBooking(booking).then(res =>{ 
-            openPayModal(1,res.data._id);  
+            // openPayModal(1,res.data._id);  
+            openPayModal(finalAmount,res.data._id);  
         });
         // openPayModal(0.1);
         return false;

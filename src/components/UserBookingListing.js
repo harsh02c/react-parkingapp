@@ -77,6 +77,24 @@ const UserBookingListing=()=>{
             navigate("/sign-in"); 
           });
     }
+
+    function endBooking(bookingId,parkingId){
+       
+        BookingService.endBooking(bookingId,parkingId).then((response) => {
+            alert("Booking status updated")
+            window.location = "/user-bookings"
+                // setAPIData(response.data);
+        }).catch(function (error) {
+            // if (error.response) {
+            //     console.log(error.response.data);
+            //     console.log(error.response.status);
+            //     console.log(error.response.headers);
+            //     alert(error.response.data.message);
+            // }
+            // navigate("../sign-in", { replace: true }); 
+            navigate("/sign-in"); 
+          });
+    }
     // return (
     //     <div className="container">
     //         <div className="row">
@@ -103,7 +121,7 @@ const UserBookingListing=()=>{
 
     return (
         <div className="inner-list">
-             <h2 className="text-center">Booking List</h2>
+             <h2 className="text-center">My Booking List</h2>
           
              <br></br>
              <div className = "row">
@@ -116,7 +134,8 @@ const UserBookingListing=()=>{
                                 <th> End Time</th>
                                 <th> Country</th>
                                 <th> City</th>
-                                {/* <th> Actions</th> */}
+                                <th> Amount</th>
+                                <th> Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -130,11 +149,11 @@ const UserBookingListing=()=>{
                                                 <td> {Moment(data.bookingEndTime).format('YYYY-MM-DD HH:MM')} </td>   
                                                 <td> {data.parking.country}</td>
                                                 <td> {data.parking.city}</td>
-                                                {/* <td>
-                                                    <button onClick={ () =>  editParking(data._id)} className="btn btn-info">Update </button>
-                                                    <button style={{marginLeft: "10px"}} onClick={ () => deleteParking(data._id)} className="btn btn-danger">Delete </button>
-                                                    <button style={{marginLeft: "10px"}} onClick={ () => viewParking(data._id)} className="btn btn-info">View </button>
-                                                </td> */}
+                                                <td> {data.bookingAmount}</td>
+                                                <td>
+                                                    {data.bookingStatus=='confirmed'?(<button style={{marginLeft: "10px"}} onClick={ () => endBooking(data._id,data.parking._id)} className="btn btn-info">End Booking</button>):"Completed"}
+                                                    
+                                                </td>
                                             </tr>
                                         )
                                     }    
